@@ -2,46 +2,200 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b0d10">
   <title>CTF</title>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0; 
-      padding: 20px;
-      width: 100vw;
-      height: 100vh;
-      font-family: "Roboto", sans-serif;
-      background: rgb(12, 12, 13);
-      color: white;
-
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      align-items: center;
-      
-      box-sizing: border-box;
+    :root {
+      --bg: #0b0d10;
+      --card: #12161b;
+      --border: #222a33;
+      --text: #e8edf2;
+      --muted: #8a96a3;
+      --accent: #3ddc97;
+      --accent-ink: #06150e;
+      --radius: 16px;
     }
 
-    span {
-        font-size: 35px;
-        font-family: "Roboto", sans-serif;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        font-size: 8vmin;
-        text-align: center;
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      padding: calc(20px + env(safe-area-inset-top, 0px)) calc(16px + env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) calc(16px + env(safe-area-inset-left, 0px));
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 50% -10%, rgba(61, 220, 151, 0.10), transparent 60%),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 640px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .payload {
+      margin: 0;
+      padding: 16px;
+      background: #0b0e12;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: clamp(14px, 4vw, 18px);
+      line-height: 1.6;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+    }
+
+    .copy {
+      margin-top: 14px;
+      width: 100%;
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-ink);
+      background: var(--accent);
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.08s ease, background 0.2s ease, filter 0.2s ease;
+    }
+
+    .copy:hover { filter: brightness(1.08); }
+    .copy:active { transform: scale(0.98); }
+    .copy:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .copy.done { background: #fff; }
+    .copy.failed { background: #ff7a7a; }
+
+    .copy svg { width: 20px; height: 20px; flex: none; }
+
+    @media (min-width: 600px) {
+      .card { padding: 28px; }
+      .copy { width: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .copy { transition: none; }
     }
   </style>
 </head>
 
 <body>
+  <main class="card">
+    <div class="head">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="label">CTF</span>
+    </div>
 
-<span>Rail: 28 2D 2D 2E 2E 2E 29 2C 20 28 30 30 30 30 30 30 31 31 29 3A 20 35 66 31 64 32 31 36 31 64 31 34 65 36 65 38 33 35 33 35 35 30 30 66 62 66 66 36 61 65 33 32 37</span>
+    <pre class="payload"><code id="payload">Rail: 28 2D 2D 2E 2E 2E 29 2C 20 28 30 30 30 30 30 30 31 31 29 3A 20 35 66 31 64 32 31 36 31 64 31 34 65 36 65 38 33 35 33 35 35 30 30 66 62 66 66 36 61 65 33 32 37</code></pre>
 
+    <button class="copy" id="copyBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      <span id="copyLabel" aria-live="polite">Kopyala</span>
+    </button>
+  </main>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("copyBtn");
+      var label = document.getElementById("copyLabel");
+      var source = document.getElementById("payload");
+      var timer;
+
+      function fallbackCopy(text) {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "0";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      function flash(text, cls) {
+        label.textContent = text;
+        btn.classList.remove("done", "failed");
+        if (cls) btn.classList.add(cls);
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          label.textContent = "Copy to clipboard";
+          btn.classList.remove("done", "failed");
+        }, 1800);
+      }
+
+      btn.addEventListener("click", function () {
+        var text = source.textContent.trim();
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(
+            function () { flash("Copied!", "done"); },
+            function () {
+              fallbackCopy(text) ? flash("Copied!", "done") : flash("Copy failed", "failed");
+            }
+          );
+        } else {
+          fallbackCopy(text) ? flash("Copied!", "done") : flash("Copy failed", "failed");
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
