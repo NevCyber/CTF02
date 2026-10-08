@@ -176,7 +176,7 @@
         if (cls) btn.classList.add(cls);
         clearTimeout(timer);
         timer = setTimeout(function () {
-          label.textContent = "Copy to clipboard";
+          label.textContent = "Kopyala";
           btn.classList.remove("done", "failed");
         }, 1800);
       }
@@ -186,13 +186,13 @@
 
         if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard.writeText(text).then(
-            function () { flash("Copied!", "done"); },
+            function () { flash("Kopyalandı!", "done"); },
             function () {
-              fallbackCopy(text) ? flash("Copied!", "done") : flash("Copy failed", "failed");
+              fallbackCopy(text) ? flash("Kopyalandı!", "done") : flash("Kopyalanamadı", "failed");
             }
           );
         } else {
-          fallbackCopy(text) ? flash("Copied!", "done") : flash("Copy failed", "failed");
+          fallbackCopy(text) ? flash("Kopyalandı!", "done") : flash("Kopyalanamadı", "failed");
         }
       });
     })();
